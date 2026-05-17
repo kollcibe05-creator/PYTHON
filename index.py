@@ -1,4 +1,3 @@
-list_ = set(["My", "Focus", "Never", "Ceases", 2, "Amuse", "Me", 4, "Ever", 2])
 # def word_evaluator(word):
 #     for x in list_: 
 #         if type(x) == int: 
@@ -50,4 +49,13 @@ def decorator(func):
 def money_maker(): 
     return "How much can you really make if you are pragmatic enough!"
 
-print(decorator(money_maker)())
+# print(decorator(money_maker)())
+# set_ = set(["Nintendo", "Collo", "Luka", 2, 4, 5])
+# print(set_["Collo"])
+
+list_ = ["My", "Focus", "Never", "Ceases", 2, "Amuse", "Me", 4, "Ever", 2]
+# numbers = [print(i) for i in list_ if "e" in i]
+# print(numbers)
+
+word = "AveryLongWordIsREquiredHere"
+print(word[-2:])

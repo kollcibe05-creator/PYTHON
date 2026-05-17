@@ -150,4 +150,15 @@ Because `sweep_floors` is now actually the `wrapper` function, what you are real
 ```py
 wrapper(800)
 ```
-*`wrapper` doesn't capture and pass back the result. If `func(time)` returns something, it just vanishes inside the `wrapper`.*
+*`wrapper` doesn't capture and pass back the result. If `func(time)` returns something, it just vanishes inside the `wrapper`.To make a decorator robust so it handles functions with return values, you would write it like:*
+```py
+def check_working_hours(func):
+    def wrapper(time):
+        if 1100 <time < 2100:
+            # Capture the return value of the original function
+            result = func(time)
+            return result
+        else:
+            return "I'm off duty!"
+    return wrapper
+```
