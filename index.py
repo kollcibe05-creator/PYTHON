@@ -53,9 +53,12 @@ def money_maker():
 # set_ = set(["Nintendo", "Collo", "Luka", 2, 4, 5])
 # print(set_["Collo"])
 
-list_ = ["My", "Focus", "Never", "Ceases", 2, "Amuse", "Me", 4, "Ever", 2]
+list_ = ["My", "Focus", "Never", "Ceases", "Amuse", "Me", "Ever"]
 # numbers = [print(i) for i in list_ if "e" in i]
 # print(numbers)
 
-word = "AveryLongWordIsREquiredHere"
-print(word[-2:])
+list_2 = [("Howard", 5), ("Collins", 1), ("Mercy", 3), ("Luka", 2), ("Flynn", 4), ("Tracy", 7), ("Mercury", 9),]
+def sort_value(tuple_value):
+    return tuple_value[1]
+list_2.sort(key=sort_value)
+print(list_2)
