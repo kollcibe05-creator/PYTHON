@@ -162,3 +162,88 @@ def check_working_hours(func):
             return "I'm off duty!"
     return wrapper
 ```
+# A note on strings
+In addition to strings being indexed and iterable, they are `immutable`, meaning, with every manipulation of it produces a new object; the original is not replaced.   
+# A note on sets & dicts
+`set` instantiation must be done using the `set()` class constructor. Closed curly braces `{}` will instanteate an empty dictionary.   
+```py
+{1, 2, 3, 4, 5, 6} # Yeah, a dictionary just like that....
+```
+# Glitch 
+```
+collinskibet@DESKTOP-EQ3N800:~/Development/code/phase-5/PYTHON$ git status
+error: object file .git/objects/c2/c6dd9457875339e7ebcfa2a79bbb96643cae8d is empty
+error: object file .git/objects/c2/c6dd9457875339e7ebcfa2a79bbb96643cae8d is empty
+error: object file .git/objects/c2/c6dd9457875339e7ebcfa2a79bbb96643cae8d is empty
+fatal: bad object HEAD
+```
+The "bad object HEAD" error is Git's indication that its internal db has been corrupted usually due to sudden power outage, a system crash, or a hard drive hiccup that interrupted a write operation.   
+Basically, the file Git uses to track your current position (the HEAD) is pointing to a "blob" (a file snapshot) that is now empty or unreadable.  
+The actual code is likely to be not affected.  
+## Back up the broken state
+```
+cp -R .git .git_backup
+```
+## Identify the corruption
+Confirm if its just the HEAD or something deeper
+```
+find .git/objects -type f -empty
+```
+If it lists files like the one in our error, those objects are toasted.  
+Since they are empty, Git can't recover the data from them directly.  
+## Soft Fix
+Usually, the `index` file is the one that's corrupted. We can try removing it and letting Git rebuilt it.  
+### Remove the corrupted index
+```
+tail -n 20 .git/logs/HEAD
+```
+The logs will include something like `rm .git/index`. This doesn't delete one's code but just tells git to forget what was "staged".   
+### Reset the index.
+```
+git reset
+```
+Git will try rebuilding the index based on the last successful commit.  
+### Check Status
+```
+git status
+```
+## "Deep Fix"(if step 3 failed)
+If the error still impedes, the last commit itself might be corrupted.  
+We need to point Git to the previous valid commit.   
+### Find the last good commit
+To actually read the file and see the commit history, one needs to use a text viewer command like `cat` or `tail`.  
+#### View the Log File: 
+```
+tail -n 10 .git/logs/refs/heads/main
+```
+#### Decode the Log Output:
+The second to last line usually contains the hash of the last 'good' commit. (That is the second hash(right before one's name/email)).  
+#### Manually override HEAD
+```
+echo "THE_HASH" > .git/refs/heads/main
+```
+If it works but still complains about a broken index next, fix it by running:
+```
+rm .git/index
+```
+Followed by:
+```
+git reset
+```
+If it works, definitely ignore the `.git_backup/` or delete it.  
+```
+echo ".git_backup/" >> .gitignore
+```
+```
+rm -rf .git_backup/
+```
+When Git is entirely blotted, after creating a new folder, you can run:
+```
+cp -r ../MESSED_FOLDER/* .
+```
+In Linux and MacOS terminals, any file or folder that starts with a dot(like `.git` or `.gitignore`) is considered a hidden file.  
+With the use of the wildcard symbol `*`, they will be completely ignored.   
+To copy hidden files like `.git`, one would have to name the folder directly without the wildcard.  
+```
+cp -r ../PYTHON_mess .
+```
