@@ -61,4 +61,8 @@ list_2 = [("Howard", 5), ("Collins", 1), ("Mercy", 3), ("Luka", 2), ("Flynn", 4)
 def sort_value(tuple_value):
     return tuple_value[1]
 list_2.sort(key=sort_value)
-print(list_2)
+# print(list_2)
+word_1 = "Where's the love?"
+word_2 = "Where is the love, huh"
+
+print(set(word_1) - set(word_2))
