@@ -64,5 +64,13 @@ list_2.sort(key=sort_value)
 # print(list_2)
 word_1 = "Where's the love?"
 word_2 = "Where is the love, huh"
+list_.extend([5, 6, 7])
+# print(list_[::-1])
+arr = list_.copy()
 
-print(set(word_1) - set(word_2))
+tup = tuple([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
+a, b, *rest = tup
+string = "Makes me sick"
+
+dict_ = {"name": "Collo", "age": 5, "team": None}
+print(abs(3.9))
