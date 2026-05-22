@@ -247,3 +247,13 @@ To copy hidden files like `.git`, one would have to name the folder directly wit
 ```
 cp -r ../PYTHON_mess .
 ```
+# A ploy on manipulating lists 
+```py
+list_ = ["Collins", "Collins", 'Luka', "Rakim", "Rakim", "Lulu"]
+dict_ = {}
+for name in list_:
+    dict_[name] = dict_.get(name, 0) + 1
+
+print(dict_)
+
+```
