@@ -256,3 +256,35 @@ for name in list_:
 
 print(dict_)
 ```
+# A note on inheritance(super())
+Python allows inheritance from multipe classes which may result to the `"Don't blink problem"` resulting from hardcoding parent class names which completely breaks down the class.    
+`super()` helps avoid the problem.   
+Case: Imagine a student who is also an employee.  
+```py
+class User:
+    def __init__(self, name):
+        print("User init")
+        self.name = name
+
+class Employee(User):
+    def __init__(self, name, salary):
+        super().__init__(name)
+        print("Employee init")
+        self.salary = salary
+
+class Student(User):
+    def __init__(self, name, grade):
+        super().__init__(name)
+        print("Student init")
+        self.grade = grade
+
+# A class inheriting from BOTH Student and Employee
+class TeachingAssistant(Student, Employee):
+    def __init__(self, name, grade, salary):
+        # This magically initializes BOTH Student AND Employee, and ensures 
+        # User.__init__ is only called ONCE!
+        super().__init__(name, grade, salary)
+```
+Python uses `MRO(Method Resolution Order)`. It creates a linear pipeline of one's classes.  
+When `TeachingAssistant` calls `super()`, Python looks at the pipeline steps through it sequentially.  
+Because every subclass uses `super()`, the initialization flows predictably through `Student`, then jumps over to `Employee`, and finally hits `User`. If you hardcoded the parent names instead of using `super()`, `User.__init__` would end up getting called twice, accidentally overwriting data and wasting processing power.  
