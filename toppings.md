@@ -288,3 +288,100 @@ class TeachingAssistant(Student, Employee):
 Python uses `MRO(Method Resolution Order)`. It creates a linear pipeline of one's classes.  
 When `TeachingAssistant` calls `super()`, Python looks at the pipeline steps through it sequentially.  
 Because every subclass uses `super()`, the initialization flows predictably through `Student`, then jumps over to `Employee`, and finally hits `User`. If you hardcoded the parent names instead of using `super()`, `User.__init__` would end up getting called twice, accidentally overwriting data and wasting processing power.  
+# Regex
+**Regular expression:** a sequence of characters used to search for a pattern inside of a string.   
+**Pattern:** a description of sequences of characters that share certain traits with one another.  
+Sequences do not need to be the same length or share any common characters to pattern match.  
+Also called a `filter`.
+## History
+RegEx came about in the 1950's and 1960's in various forms. Among the first appearances of regular expressions in program form was when `Ken Thompson` built `Stephen Cole Kleene's` notation into the editor `QED` as a means to match patterns in text files. Since then, there have been various implementations of regular expressions developed.    
+We use Python regular expression, an implementation based off mostly of the PERL language.  
+A key difference btwn the two is that regex in Python requires us to import the re module whereas it is natively supported in PERL and many languages.  
+
+## Writing Regular Expressions
+```py
+pattern = r'abc'
+```
+`r` stands for `raw`, which means that the escape characters such as backslashes`(\)` are read and not ignored.  
+This expands the number of characters that can go into a pattern and allows you to search for patterns with greater flexibility.  
+## Metacharacters
+Allow one to use pre-defined shorthand to match specific characters.   
+`\d` Will match any `digit` in the text.  
+`\w` will match any `word character`(letters, numbers and underscores.)   
+`\W` matches any `non-word character`.   
+## Only specific characters
+`r"aeiou"` won't work for vowels.  
+`r[aeiou]` will work - looks for **one single character** in our text which matches any of the characters inside the square brackets.     
+## Ranges
+We can, for instance write a regex to match the first ten characters like `r"[abcdefghij]"`.  
+We can shorten this by using a RegEx range: `r'[a-j]'`.  
+`r'[0123456789]'` becomes `r'[0-9]'`  
+`r'[A-z]'` represents all letters, both in upper and lower case.  
+## Double Vowels
+For the longest way, we wil have to do something like:  
+`r'aa|ae|ai|ao|au|ea|ee|ei|eo|eu|ia|ie'`   
+An improvement is to use two sets of square brackets with vowels, each one representing a single character:     
+`r'[aeiou][aeiou]'`  
+Our most efficient, however, is to use repetitions:  
+`r'[aeiou]{2}'`  
+The curly braces sorrounding mean that the pattern or character directly preceding it must repeat that number of times.  
+## Bluff
+You could literally match the whole monologue with the simple RegEx: `r'.*'`but where is the fun in that?     
+## The 're' Module
+In Python, regular expressions require you to use the `re` module from the standard library.  
+When we say *standard library*, it means that it was downloaded onto our computer when we installed Python. We still need to import it, but we do not need to include it in our Pipfile.    
+**Python's standard library** is a collection of modules that are downloaded when you install any version of Python.  
+```py
+import re
+
+text = "This is a regular text."
+```
+The `.` character matches anything.  
+If we want to match the period specifically we should end our pattern with `\.`  
+```py
+import re
+text = "This is some regular text."
+pattern = r'This is some regular text\.'
+```
+### `re` Methods
+#### compile()
+```py
+import re
+text = "This is some regular text."
+pattern = r"This is some regular text\."
+regex = re.compile(pattern)
+```
+*Note: You can use the `re` module without compiling patterns beforehand. This is **not** recommended because it will require you to include your pattern as an argument to every new `re` method that you run. Gross!*  
+#### dir()
+```
+dir(regex)
+# => ['__class__', '__class_getitem__', '__copy__', '__deepcopy__', '__delattr__', '__dir__', '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__', '__getstate__', '__gt__', '__hash__', '__init__', '__init_subclass__', '__le__', '__lt__', '__module__', '__ne__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__sizeof__', '__str__', '__subclasshook__', 'findall', 'finditer', 'flags', 'fullmatch', 'groupindex', 'groups', 'match', 'pattern', 'scanner', 'search', 'split', 'sub', 'subn']
+```
+#### search()
+It searches to see if there is a match for your regular expression in the text.  
+```py
+import re
+text = 'A regular text.'
+pattern = r"text"
+regex = re.compile(pattern)
+match = regex.search(text)
+print(match)
+# => <re.Match object; span=(7, 11), match='text'>
+```
+The `search()` method returns an `re.Match` object.  
+```py
+dir(match)
+# => [(ignoring magic methods...), 'end', 'endpos', 'expand', 'group', 'groupdict', 'groups', 'lastgroup', 'lastindex', 'pos', 're', 'regs', 'span', 'start', 'string']
+```
+An `re.Match` object contains an index for its start and end locations in the string that your RegEx is being checked against. It also contains the string itself.  
+```py
+match.start()
+# => 7
+match.end()
+# => 11
+match.span()
+# => (7, 11)
+match.string
+# => 'I love text. Text text text text text.'
+```
+
