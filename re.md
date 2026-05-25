@@ -227,7 +227,7 @@ Clear the regular expression cache.
 ### Basic Patterns
 - `a, X, 9`: ordinary characters match themselves exactly. The meta-characters which do not match themselves because they have special meanings are: `. ^ + ? { [] \ | ()`  
 - `.`: Matches any single character except newline `\n`  
-- `\b` Boundary between word and a non-word(matches the empty string only at the end or beginning or end of a word. A word is defined as a sequence of word characters. Note that formally, `\b` is defined as the boundary between a `\w` and a `\W` character (or vice versa), or between `\w` and the beginning or end of the string. This means that `r'\bat\b'` matches `'at'`, `'at.'`, `'(at)'`, and `'as at ay'` but not `'attempt'` or `'atlas'`) * Inside a character range, `\b` represents the backspace character, for compatibility with Python’s string literals.*    
+- `\b` Boundary between word and a non-word(matches the empty string only at the end or beginning or end of a word. A word is defined as a sequence of word characters. Note that formally, `\b` is defined as the boundary between a `\w` and a `\W` character (or vice versa), or between `\w` and the beginning or end of the string. This means that `r'\bat\b'` matches `'at'`, `'at.'`, `'(at)'`, and `'as at ay'` but not `'attempt'` or `'atlas'`) * Inside a character range(eg. `[\b]`), `\b` represents the backspace character, for compatibility with Python’s string literals.*    
 - `^ = start`, `$=end`: match the start and end of the string. (^ has no special meaning if it’s not the first character in the set.)  
 - `*` Causes the resulting RE to match 0 or more repetitions of the preceding RE, as many repetitions as possible.   
 `ab*` will match `a`, `ab`, or `a` followed by any number of `b`s.  
@@ -341,6 +341,53 @@ The option flag is added as an extra argument to the `search()` or `findall()` e
 ```py
 re.search(pattern, str_, re.IGNORECASE)
 ```
+To pass multiple, you'll have to use the bitwise **OR operator**, which is the pipe `|`symbol:  
+re.compile() example:   
+```py
+import re
+
+text = """ERROR: Server is down
+warning: low disk space
+Error: database disconnected"""
+
+# Combine IGNORECASE (I) and MULTILINE (M)
+# This matches 'Error' or 'error' at the start of any line
+pattern = re.compile(r"^error:.*", re.IGNORECASE | re.MULTILINE)
+
+matches = pattern.findall(text)
+print(matches)
+# => ['ERROR: Server is down', 'Error: database disconnected']
+```
+RE methods directly:
+```py
+import re
+
+text = "Deep Learning\nMachine Learning"
+
+# Correct way involves using keyword argument 'flags='
+result = re.findall(r"learning$", text, flags=re.IGNORECASE | re.MULTILINE)
+print(result) # Output: ['Learning', 'Learning']
+# Faulty: (Do not do this for direct methods):
+# re.findall(r"learning$", text, re.IGNORECASE | re.MULTILINE)
+``` 
+You may use Inline flags inside the regex string.    
+They take the syntax: `(?flags)`   
+**i** IGNORECASE  
+**m** MULTILINE  
+**s** DOTAL   
+**x** VERBOSE
+```py
+import re
+
+text = "Alpha\nbeta"
+
+# (?im) turns on IGNORECASE and MULTILINE automatically
+pattern = r"(?im)^beta"
+
+match = re.search(pattern, text)
+print(match.group()) 
+# => beta
+```
 - **IGNORECASE** ignore upper/lowercase differences for matching.  
 - **DOTALL** allow dot(.) to match newline -- normally it matches anything but newline.  
 This can trip you up -- you think `.*` matches everthing, but by default it does not go past the end of a line.  
@@ -419,5 +466,13 @@ same as `\z`. For compatibility with old Python versions.
 - \a      \b      \f      \n
 - \N      \r      \t      \u
 - \U      \v      \x      `\\`
-
+#### To ensure that a specific string is used only once.  
+```py
+r'^(?!.*_.*_)[a-zA-Z0-9]+_[a-zA-Z0-9]+$'
+```
+The `(?!.*_.*_)` is the magic guard(a negative lookahead). Right at the start of the string, it looks ahead.    
+When dealing with a list-like approach:
+```py
+r'^\[(?!.*_.*_)\w*_\w*\]$'
+```
 #### Match Objects and Regular Expressions Objects expounded on.  
