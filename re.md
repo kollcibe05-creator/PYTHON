@@ -470,9 +470,66 @@ same as `\z`. For compatibility with old Python versions.
 ```py
 r'^(?!.*_.*_)[a-zA-Z0-9]+_[a-zA-Z0-9]+$'
 ```
-The `(?!.*_.*_)` is the magic guard(a negative lookahead). Right at the start of the string, it looks ahead.    
+The `(?!.*_.*_)` is the magic guard(a negative lookahead). Right at the start of the string, it looks ahead and tells the regex to fail immediately if it finds and underscore followed by anything, followed by a second underscore.   
+Once the guard approves that there are no duplicate underscores, this part handles the actual match. It expects alphanumeric characters, a single literal `_`, and more alphanumeric characters.  
+You can induce a shortcut by:
+```
+^[^_]*_[^_]*$
+```
+- `^[^_]*`: From the start of the string, match any number of characters that are not an underscore.   
+- `_`: Match the single allowed underscore.   
+- `[^_]*$`: Match any number of characters that are not an underscore until the end of the string.  
 When dealing with a list-like approach:
 ```py
 r'^\[(?!.*_.*_)\w*_\w*\]$'
+```
+We escape the brackets as `\[` and `\]` to indicate we want literal bracket characters, not a character class.   
+To find unique character:
+```
+(.)(?!.*\1)
+```
+- The `(.)` is a capturing group that matches any single character(except a newline). It stores this character as a group number`(\1)` 
+- `(?! ...)` Is a negative lookahead. It tells the regex engine to look ahead from the current position and fail to match if the stuff inside these parentheses happens next.  
+- `.*\1`: inside the lookahead, this means any characters(`.*`) followed by a repetition of our first captured character.   
+"Match a character, but only if that exact same character cannot be found anywhere else ahead of it in the string."  
+
+To find a unique character:
+```
+\b(?!\w*(\w)\w*\1)\w\b
+```
+#### ^ vs \A & $ vs \Z
+The difference between them come down to how they handle multi-line strings and trailing newlines(`\`).  
+##### \A & ^
+`\A` matches the absolute beginning of the entire string, ignoring the line breaks on multiline(`re.MULTILINE`).    
+`^` matches the beginning of a line or string. By default, it matches the start of the string. If `re.MULTILINE` is turned on, it matches the start of every single line(right after the `\n`).  
+```py
+import re
+
+text = "Hello\nWorld"
+
+# ^ with MULTILINE matches both 'Hello' and 'World'
+print(re.findall(r"^.+$", text, re.MULTILINE))  # Output: ['Hello', 'World']
+
+# \A ignores MULTILINE and only matches 'Hello'
+print(re.findall(r"\A.+", text, re.MULTILINE))   # Output: ['Hello']
+```
+##### $ vs \Z vs \z
+Python treats them differently based on whether there is a trailing newline at the very end of your string.  
+- `$` (The Line End): Matches the end of a line or the string. If your string has a trailing newline (e.g., `"text\n"`), `$` matches right before that newline. If `re.MULTILINE` is active, it matches before every newline character in the string.   
+- `\Z` (The Soft String End): Matches the end of the entire string, but with a quirk: if the string ends with a newline, `\Z` matches right before that final newline. It completely ignores `re.MULTILINE`.  
+- `\z` (The Absolute Hard String End): Matches the absolute end of the string, period. It does not make an exception for a trailing newline. (Note: In Python's native `re` module, `\z` is actually not supported; Python uses `\Z` for string ends. However, `\z` is standard in other engines like PCRE, Ruby, and Python's alternative `regex` module).  
+```py
+import re
+
+text = "Python\n"
+
+# '$' matches because it allows a trailing newline
+print(bool(re.match(r"Python$", text)))  # True
+
+# '\Z' matches because it also allows a final trailing newline
+print(bool(re.match(r"Python\Z", text))) # True
+
+# If you use the strict third-party 'regex' module with '\z':
+# re.match(r"Python\z", text) -> False (because of the hidden '\n' at the very end)
 ```
 #### Match Objects and Regular Expressions Objects expounded on.  
