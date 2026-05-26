@@ -497,6 +497,13 @@ To find a unique character:
 ```
 \b(?!\w*(\w)\w*\1)\w\b
 ```
+##### Tip on uniqueness
+```py
+email_address = r"(?!(^\d.))(?!.*\.{2})(?!.*\d)[a-z0-9\.]+@[a-z]+.[a-z]+"
+```
+- `(?!(^\d.))` It ensures that the email does not start with a digit. The caret`^` in this case means the literal start of the email.
+- `(?!.*\.{2})` asserts that there should not be two concurrent `.`s.  
+- `(?!.*\d)`(obviously contrived) asserts that there should not be any digit used.  
 #### ^ vs \A & $ vs \Z
 The difference between them come down to how they handle multi-line strings and trailing newlines(`\`).  
 ##### \A & ^
