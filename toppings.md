@@ -289,3 +289,4 @@ Python uses `MRO(Method Resolution Order)`. It creates a linear pipeline of one'
 When `TeachingAssistant` calls `super()`, Python looks at the pipeline steps through it sequentially.  
 Because every subclass uses `super()`, the initialization flows predictably through `Student`, then jumps over to `Employee`, and finally hits `User`. If you hardcoded the parent names instead of using `super()`, `User.__init__` would end up getting called twice, accidentally overwriting data and wasting processing power.  
 
+## SQL tips
