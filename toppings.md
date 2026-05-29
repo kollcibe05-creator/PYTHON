@@ -293,3 +293,10 @@ Because every subclass uses `super()`, the initialization flows predictably thro
 ```sql
 SELECT * FROM artists WHERE artistId== 12
 ```
+```sql
+CREATE TABLE artists(
+    id INTEGER PRIMARY KEY,
+    name TEXT, 
+    age INTEGER
+);
+```
