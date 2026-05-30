@@ -300,3 +300,5 @@ CREATE TABLE artists(
     age INTEGER
 );
 ```
+# SQL LEFT AND SQL RIGHT JOINS
+
