@@ -301,4 +301,7 @@ CREATE TABLE artists(
 );
 ```
 # SQL LEFT AND SQL RIGHT JOINS
-
+Limit inclusion;
+```sql
+SELECT *FROM artists LIMIT 5
+```
