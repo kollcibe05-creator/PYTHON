@@ -305,3 +305,14 @@ Limit inclusion;
 ```sql
 SELECT *FROM artists LIMIT 5
 ```
+## Altering a Table 
+```sql
+ALTER TABLE artists ADD COLUMN Length
+```
+```sql
+ALTER TABLE artists DROP COLUMN reviews
+```
+## Deleting a Table
+```sql
+DROP TABLE DAMN.
+```
