@@ -316,3 +316,18 @@ ALTER TABLE artists DROP COLUMN reviews
 ```sql
 DROP TABLE DAMN.
 ```
+|**NAME**| **AGE**|
+|--------|--------|
+|Collins | 5      |
+|Lucy    | 15     |
+
+Where is it :
+| column      | type    |
+| ----------- | ------- |
+| id          | integer |
+| name        | text    |
+| age         | integer |
+| sex         | text    |
+| color       | text    |
+| temperament | text    |
+| alive       | boolean |
