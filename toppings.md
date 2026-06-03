@@ -331,3 +331,6 @@ Where is it :
 | color       | text    |
 | temperament | text    |
 | alive       | boolean |
+```sql
+SELECT * FROM artists ORDER BY views
+```
