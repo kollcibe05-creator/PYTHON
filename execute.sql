@@ -11,3 +11,4 @@
 -- INSERT INTO artists (name, genre)  VALUES ("AC/DC", "Alternative"); 
 -- INSERT INTO artists (name, genre)  VALUES ("Lana Del Rey", "Pop"); 
 -- INSERT INTO artists (genre) VALUES ("Indie")
+INSERT INTO artists (name, genre) VALUES ("Imani Imani", "RnB + Soul")
