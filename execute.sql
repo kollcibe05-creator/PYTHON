@@ -12,3 +12,4 @@
 -- INSERT INTO artists (name, genre)  VALUES ("Lana Del Rey", "Pop"); 
 -- INSERT INTO artists (genre) VALUES ("Indie")
 INSERT INTO artists (name, genre) VALUES ("Imani Imani", "RnB + Soul")
+INSERT INTO artists (name, genre) VALUES ("Michael Jackson", "Pop")
