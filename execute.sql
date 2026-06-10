@@ -14,3 +14,4 @@
 INSERT INTO artists (name, genre) VALUES ("Imani Imani", "RnB + Soul")
 INSERT INTO artists (name, genre) VALUES ("Michael Jackson", "Pop")
 INSERT INTO artists (name, genre) VALUES ("Kid Cudi", "Rap")
+INSERT INTO artists (name, genre) VALUES ("Billie Eilish", "Pop")
