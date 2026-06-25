@@ -1,1 +1,0 @@
-UPDATE artists SET name = "Collins" WHERE name = "Soso"
