@@ -2,6 +2,8 @@
 
 from __init__ import CONN, CURSOR 
 
+# WITH EXECUTE.PY
+
 class Department:
     all = {}
     def __init__(self, name, location, id=None):

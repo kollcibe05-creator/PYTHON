@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
 
+
+# WORKED HAND IN HAND WITH ORM_DB.PY TO ALLUDE RAW SQLITE3 MAPPING
+
 from __init__ import CONN, CURSOR
 
 from orm_db import Department, Employee
