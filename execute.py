@@ -10,23 +10,23 @@ Department.drop_table()
 Department.create_table()
 
 payroll = Department.create("Payroll", "West Wing, 5th Floor")
-print(payroll)
+# print(payroll)
 
 quality_assurance = Department.create("Quality Assurance", "East Wing, 4th Floor")
-print(quality_assurance)
+# print(quality_assurance)
 
 hr = Department.create("Human Resources", "West Egg, Building C")
-print(hr)
+# print(hr)
 
 hr.name = "HR"
 hr.location = "East Egg, Building 4"
 hr.update()
-print(hr)
+# print(hr)
 
 cleric = Department.create("Clerics", "West Egg, 4th Floor")
-print(cleric)
+# print(cleric)
 
-print("Deleting Clerics")
+# print("Deleting Clerics")
 cleric.delete()
 # print(cleric)
 
