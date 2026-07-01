@@ -1,0 +1,21 @@
+class Customer(Base):
+    __tablename__ = "customers"
+
+    id = Column(Integer(), primary_key=True)
+
+    orders = relationship("Order", backref="customer")
+
+class Order(Base):
+    __tablename__= "orders"
+
+    id = Column(Integer(), primary_key=True)
+
+    customer_id = Column(Integer(), ForeignKey("customers.id"))
+
+class OrderMetadata(Base):
+    __tablename__ = "orders_metadata"
+
+    id = Column(Integer(), primary_key=True)
+    order_id = Column(Integer(), ForeignKey("orders.id"))
+
+    order = relationship("Order", backref=backref("order_metadata", uselist=False))
