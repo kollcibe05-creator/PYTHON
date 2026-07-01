@@ -38,7 +38,23 @@ class Student(Base):
         return f"Student {self.id}: "\
             + f"{self.name}, "\
             + f"Grade {self.grade}"
+    def create_table(Base, engine):
+        Base.metadata.create_all(engine)
 
+    def save(session, student):
+        session.add(student)
+        session.commit()
+
+    def get_all(session):
+        return [student for student in session.query(Student)]
+    def find_by_name(session, name):
+        return [student for student in session.query(Student).filter(Student.name == name)]
+    def find_by_name_and_id(session, name, id):
+        return [student for student in session.query(Student).filter(Student.name == name, Student.id == id)]
+    def update_grade(session, student, grade):
+        student.grade = grade
+        session.commit()
+    
     
 
 
