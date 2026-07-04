@@ -66,4 +66,3 @@ game_user = Table(
     Column("user_id", ForeignKey("users.id"), primary_key=True),
     extend_existing=True
 )
-
