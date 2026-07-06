@@ -3,6 +3,16 @@ from sqlalchemy.ext.declarative import declarative_base
 
 Base = declarative_base()
 
+# Many to many with table objects
+game_user = Table(
+    "game_users", 
+    Base.metadata,
+    Column("game_id", ForeignKey("games.id", primary_key=True)),
+    Column("user_id", ForeignKey("users.id"), primary_key=True),
+    extend_existing=True
+)
+
+
 class Game(Base):
     id = Column(Integer(), primary_key=True)
     title = Column(String())
@@ -58,11 +68,3 @@ class GameUser(Base):
         return f'GameUser(game_id={self.game_id}, ' + \
             f'user_id={self.user_id})'
 
-# Many to many with table objects
-game_user = Table(
-    "game_users", 
-    Base.metadata,
-    Column("game_id", ForeignKey("games.id", primary_key=True)),
-    Column("user_id", ForeignKey("users.id"), primary_key=True),
-    extend_existing=True
-)
