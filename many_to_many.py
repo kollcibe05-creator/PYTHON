@@ -9,7 +9,7 @@ game_user = Table(
     Base.metadata,
     Column("game_id", ForeignKey("games.id", primary_key=True)),
     Column("user_id", ForeignKey("users.id"), primary_key=True),
-    extend_existing=True
+    extend_existing=True  # Overwrites the table object instead of throwing errors. That is also for the case of overlapping relationships
 )
 
 
