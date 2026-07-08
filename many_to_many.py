@@ -1,7 +1,14 @@
 from sqlalchemy import (create_engine, desc, CheckConstraint, PrimaryKeyConstraint, UniqueConstraint, Index, DateTime, Integer, String, Column, func)
 from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker
+
 
 Base = declarative_base()
+
+engine = create_engine("sql:///db.db")
+Session = sessionmaker(bind=engine)
+session = Session()
+
 
 # Many to many with table objects
 game_user = Table(
