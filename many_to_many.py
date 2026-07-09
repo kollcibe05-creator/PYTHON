@@ -5,7 +5,7 @@ from sqlalchemy.orm import sessionmaker
 
 Base = declarative_base()
 
-engine = create_engine("sql:///db.db")
+engine = create_engine("sql:///db.db") # The engine interprets the data from the db to the ORM and vise-versa
 Session = sessionmaker(bind=engine)
 session = Session()
 
