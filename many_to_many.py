@@ -142,3 +142,6 @@ class Review(Base):
         return f'Review(id={self.id}, ' + \
             f'score={self.score}, ' + \
             f'game_id={self.game_id})'
+    # def __repr__(self):
+    #     return f"<{self.id} " + \
+    #             f"{self.game_id}>" 
