@@ -334,15 +334,39 @@ Where is it :
 ```sql
 SELECT * FROM artists ORDER BY views
 ```
+## An example of the __str__ method
 ```py
-const dog = "Scooby"
+class MySet:
+    def __init__(self, enumerable=None):
+        self.dictionary = {}
+        if enumerable is not None:
+            for value in enumerable:
+                self.dictionary[value] = True
 
-switch(dog){
-    case("Bosco"): console.log("It's Bosco")
-    break;
-    case("Scooby"): console.log("It's Scooby")
-    break;
-    default: console.log("No dog exists here.")   
-    break;
-}
+    def __str__(self):
+        if not self.dictionary:
+            return "MySet()"
+        elements = ", ".join(repr(k) for k in self.dictionary)
+        return f"{{{elements}}}"
+
+    def has(self, value):
+        return value in self.dictionary
+
+    def add(self, value):  # Added missing 'value' argument
+        self.dictionary[value] = True
+        return self
+
+    def delete(self, value):
+        self.dictionary.pop(value, None)
+        return self
+
+    def clear(self):
+        self.dictionary.clear()
+        return self
 ```
+The **repr()**(stands for representation) returns a string containing a printable representation of an object, designed to show *how the value is officially written in Python code.*   
+Its biggest difference with **str()**  shows up when dealing with strings.    
+| **INPUT** |**str** | **repr**                     |
+|-------    |--------|--------                      |
+|"Collo"    |Collo   |   'Collo' (*includes quotes*)|
+| 123       |   123  | 123                          |
