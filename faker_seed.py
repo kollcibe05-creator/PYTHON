@@ -19,3 +19,23 @@ for i in range(50)]
 
 session.bulk_save_objects(games)
 session.commit()
+
+
+# Hot tip on selecting random elements 
+# Define your list of departments
+departments = [
+    "Human Resources",
+    "Engineering",
+    "Marketing",
+    "Sales",
+    "Finance",
+    "Customer Support",
+    "Research & Development"
+]
+
+# Generate employee data with a random department
+employee = {
+    "name": fake.name(),
+    "job_title": fake.job(),
+    "department": fake.random_element(elements=departments)
+}
